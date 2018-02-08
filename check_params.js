@@ -6,51 +6,51 @@ function runPrintResult(e)
     }
 }
 
+
 function printResult()
 {
-    var itemClass = 'successed';
-    var messages = ['Параметры полностью совпадают!'];
+    var itemClass = '';
+    var messagesObj = {
+        not_equal_length: 'Параметры не совпадают по количеству!',
+        false: 'Параметры не совпадают!',
+        true: 'Параметры полностью совпадают!'
+    }
 
     clearMessages();
     var expectedParams = getFieldValue('expected_input', 'expected_block');
     var actualParams = getFieldValue('actual_input', 'actual_block');
     result = getCompareResult(expectedParams, actualParams);
 
-    if (result.status === 'emtpy') return;
-
-    if (result.status === 'not_equal_length') {
-        itemClass = 'failed';
-        messages = ['Параметры не совпадают по длинне!',
-                    'Ожидаемое кол-во элементов: ' + Object.keys(expectedParams).length,
-                    'Фактическое кол-во элементаов: ' + Object.keys(actualParams).length
-        ];
+    switch(result.status) {
+        case 'not_equal_length':
+            itemClass = 'failed';
+            break;
+        case false:
+            itemClass = 'failed';
+            break;
+        case 'emtpy':
+            return;
+        default:
+            itemClass = 'successed';
     }
 
-    if (result.status === false) {
-        itemClass = 'failed';
-        messages = ['Параметры не совпадают!'];
-    }
+    var resultBlock = renderResultBlock('div', itemClass, 'result', 'content-block');
+    renderTextItems('div', resultBlock, messagesObj[result.status]);
 
-    if (result.kyes_not_found.length != 0) {
-        messages.push('Свойства, которые отсутствуют: ' + result.kyes_not_found.sort());
-    }
-
-    var resultDiv = renderItem('div', itemClass, 'result', 'content-block');
-    for (var i = 0; i < messages.length; i++) {
-        renderTextItems('div', resultDiv, messages[i]);
-    }
-
-    renderTextItems('div', resultDiv, 'Ожидаемая последовательность: ');
+    var resultTable = renderResultBlock('div', 'result-table', 't1', 'result');
+    var resultTableCell = renderResultBlock('div', 'result-table-cell', 'left_cell', 't1');
+    renderTextItems('div', left_cell, 'Ожидаемая последовательность: ');
     for (var key in expectedParams) {
         let className = 'success';
         if (result.kyes_not_found.includes(key)) {
             className = 'fail';
         }
-        renderTextItems('mark', resultDiv, '' + key + ': ' + expectedParams[key] + ', ', className);
+        renderTextItems('mark', resultTableCell, '' + key + ': ' + expectedParams[key] + ', ', className);
+        resultTableCell.appendChild(document.createElement('br'));
     }
 
-    renderTextItems('div', resultDiv, 'Фактическая последовательность: ');
-    console.log(result.other_keys);
+    resultTableCell = renderResultBlock('div', 'result-table-cell', 'right_cell', 't1');
+    renderTextItems('div', right_cell, 'Фактическая последовательность: ');
     for (var key in actualParams) {
         let className = 'success';
         if (result.values_not_found.includes(actualParams[key])) {
@@ -59,9 +59,11 @@ function printResult()
         if (result.other_keys.includes(key)) {
             className = 'useless';
         }
-        renderTextItems('mark', resultDiv, '' + key + ': ' + actualParams[key] + ', ', className);
+        renderTextItems('mark', resultTableCell, '' + key + ': ' + actualParams[key] + ', ', className);
+        resultTableCell.appendChild(document.createElement('br'));
     }
 }
+
 
 function getFieldValue(fieldId, parentBlockId) {
    var fieldValue = document.getElementById(fieldId).value;
@@ -76,6 +78,7 @@ function getFieldValue(fieldId, parentBlockId) {
 
    return getObjectFromFormatedString(fieldValue);
 }
+
 
 function getCompareResult(expObj, actObj) {
     var status = true;
@@ -119,13 +122,15 @@ function getCompareResult(expObj, actObj) {
     }
 }
 
-function renderItem(item, itemClass, itemId, parentItemId) {
+
+function renderResultBlock(item, itemClass, itemId, parentItemId) {
     var resultItem = document.createElement(item);
-    resultItem.className = itemClass;
-    resultItem.id = itemId;
+    if (itemClass) resultItem.className = itemClass;
+    if (itemId) resultItem.id = itemId;
     document.getElementById(parentItemId).appendChild(resultItem);
     return resultItem;
 }
+
 
 function renderTextItems(item, parentItem, message, itemClass, itemId) {
     var resultItem = document.createElement(item);
@@ -135,6 +140,7 @@ function renderTextItems(item, parentItem, message, itemClass, itemId) {
     resultItem.appendChild(document.createTextNode(message));
 }
 
+
 function renderAlert(parentItem, inputId, alertId) {
     message = 'Поле не должно быть пустым!';
     itemClass = 'alert';
@@ -143,11 +149,12 @@ function renderAlert(parentItem, inputId, alertId) {
 
 }
 
+
 // очистка инпутов и результатов сравнения
 function clearMessages() {
-    var resultDiv = document.getElementById('result');
-    if (resultDiv) {
-        document.getElementById('content-block').removeChild(resultDiv);
+    var resultBlock = document.getElementById('result');
+    if (resultBlock) {
+        document.getElementById('content-block').removeChild(resultBlock);
     }
 
     var expectedAlertMessage = document.getElementById('alert_expected_block');
@@ -182,13 +189,8 @@ function getFormatedStringFromRawString (str) {
 function getObjectFromFormatedString (str) {
     var data_obj = new Object();
     var data = str.split(',');
-    console.log(data);
     data.forEach(function(item)
     {
-        console.group(item);
-        console.log(item.split(':')[0]);
-        console.log(item.split(':')[1]);
-        console.groupEnd();
         var key = decodeURI(item.split(':')[0].trim());
         var value = decodeURI(item.split(':')[1].trim());
         data_obj[key] = value;
