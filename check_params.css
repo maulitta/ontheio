@@ -1,0 +1,103 @@
+h1 {
+  font-size: 24px;
+}
+
+body {
+  background: #f7f7f7;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+p.title {
+    margin-bottom: 5px;
+}
+
+div.content-block {
+  background-color: white;
+  width: 640px;
+  margin: 0 auto;
+  padding: 5px 15px;
+  border-radius: 8px;
+}
+
+div.input-block {
+  margin-bottom: 10px;
+}
+
+div {
+  word-wrap: break-word;
+  padding-bottom: 2px;
+}
+
+mark.success {
+  background-color: green;
+}
+
+mark.suspect {
+  background-color: yellow;
+}
+
+mark.fail {
+  background-color: red;
+}
+
+mark.empty {
+  background-color: gray;
+}
+
+mark.useless {
+  background-color: gray;
+}
+
+
+.alert {
+  color: #b31e1b;
+}
+
+.input-field[alert-state='false'] {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dee4ea;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+    line-height: 14px;
+    vertical-align: middle;
+}
+
+.input-field[alert-state='true'] {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dee4ea;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+    line-height: 14px;
+    vertical-align: middle;
+    border-color: #b00;
+}
+
+.failed {
+  margin: 10px;
+  padding-left: 10px;
+  border: 1px solid #e9c6c6;
+  border-radius: 4px;
+  color: #b31e1b;
+  background-color: #f0d8d8;
+}
+
+
+.successed {
+  margin: 10px;
+  padding: 5px 10px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
