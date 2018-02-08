@@ -8,18 +8,19 @@
 <body>
     <div class="content-block" id="content-block">
         <h1>Проверка onthe.io-параметров</h1>
-        <div class="input-block" id='expected_block'>
+        <div class="input-block" id='expected_block' style="float: left;">
             <p class='title'>
                 Ожидаемый набор параметров:
             </p>
-            <input type="text" id="expected_input" class='input-field' alert-state='false' autofocus>
+            <textarea type="text" id="expected_input" class='input-field' alert-state='false' autofocus></textarea>
         </div>
-        <div class="input-block" id='actual_block'>
+        <div class="input-block" id='actual_block' style="float: right;">
             <p class='title'>
                 Фактическая набор параметров (Network браузера):
             </p>
-            <input type="text" id="actual_input" class='input-field' alert-state='false' onkeypress='runPrintResult(event)'>
+            <textarea  type="text" id="actual_input" class='input-field' alert-state='false' onkeypress='runPrintResult(event)'></textarea>
         </div>
+        <div style="clear: both;"></div>
         <input type="button" name="" value="Сравнить" onClick="printResult()">
         <p>Результат проверки:</p>
     </div>
