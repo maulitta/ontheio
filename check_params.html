@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+    <title>Params checker</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="check_params.js"></script>
+    <link rel="stylesheet" type="text/css" href="check_params.css">
+</head>
+<body>
+    <div class="content-block" id="content-block">
+        <h1>Проверка onthe.io-параметров</h1>
+        <div class="input-block" id='expected_block'>
+            <p class='title'>
+                Ожидаемый набор параметров:
+            </p>
+            <input type="text" id="expected_input" class='input-field' alert-state='false' autofocus>
+        </div>
+        <div class="input-block" id='actual_block'>
+            <p class='title'>
+                Фактическая набор параметров (Network браузера):
+            </p>
+            <input type="text" id="actual_input" class='input-field' alert-state='false' onkeypress='runPrintResult(event)'>
+        </div>
+        <input type="button" name="" value="Сравнить" onClick="printResult()">
+        <p>Результат проверки:</p>
+    </div>
+</body>
