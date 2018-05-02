@@ -191,8 +191,8 @@ function getObjectFromFormatedString (str) {
     var data = str.split(',');
     data.forEach(function(item)
     {
-        var key = decodeURI(item.split(':')[0].trim());
-        var value = decodeURI(item.split(':')[1].trim());
+        var key = decodeURIComponent(item.split(':')[0].trim());
+        var value = decodeURIComponent(item.split(':')[1].trim());
         data_obj[key] = value;
     });
     return data_obj;
